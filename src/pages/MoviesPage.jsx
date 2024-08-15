@@ -57,7 +57,7 @@ const products = [
   },
 ];
 
-const Products = () => {
+const MoviesPage = () => {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const productName = searchParams.get("name") ?? "";
@@ -93,4 +93,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default MoviesPage;
