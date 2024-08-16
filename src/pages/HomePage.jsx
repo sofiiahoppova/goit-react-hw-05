@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import MoviesList from "../components/MoviesList/MoviesList";
-import { fetchAllMovies } from "../fetchAPi";
+import { fetchTrendingMovies } from "../fetchAPi";
 
 const HomePage = () => {
   const [movies, setMovies] = useState([]);
   useEffect(() => {
     const getAllMovies = async () => {
       try {
-        const results = await fetchAllMovies();
-        console.log(results);
+        const results = await fetchTrendingMovies();
         setMovies(results);
       } catch (error) {}
     };

@@ -1,9 +1,10 @@
 import { Link, Outlet } from "react-router-dom";
+import css from "./MovieInfo.module.css";
 
-const About = () => {
+const MovieInfo = () => {
   return (
-    <div>
-      <h1>About</h1>
+    <div className={css.wrapper}>
+      <h3>Additional information</h3>
       <ul>
         <li>
           <Link to="cast">Cast</Link>
@@ -17,4 +18,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default MovieInfo;
