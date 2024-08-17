@@ -1,6 +1,8 @@
 import { useParams } from "react-router-dom";
-import { fetchCast } from "../../fetchAPi";
 import { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
+
+import { fetchCast } from "../../fetchAPi";
 
 import css from "./MovieCast.module.css";
 
@@ -12,9 +14,13 @@ const MovieCast = () => {
     const getCast = async () => {
       try {
         const data = await fetchCast(movieId);
-        console.log(data.cast);
         setCast(data.cast);
-      } catch (error) {}
+      } catch (error) {
+        toast.error("Something went wrong. Sorry! You can try again later", {
+          duration: 4000,
+          position: "top-right",
+        });
+      }
     };
     getCast();
   }, []);
@@ -38,6 +44,7 @@ const MovieCast = () => {
             );
           })}
       </ul>
+      <Toaster />
     </div>
   );
 };

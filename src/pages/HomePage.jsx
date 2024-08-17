@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
+
 import MoviesList from "../components/MoviesList/MoviesList";
+
 import { fetchTrendingMovies } from "../fetchAPi";
 
 const HomePage = () => {
@@ -9,7 +12,12 @@ const HomePage = () => {
       try {
         const results = await fetchTrendingMovies();
         setMovies(results);
-      } catch (error) {}
+      } catch (error) {
+        toast.error("Something went wrong. Sorry! You can try again later", {
+          duration: 4000,
+          position: "top-right",
+        });
+      }
     };
     getAllMovies();
   }, []);
@@ -17,6 +25,7 @@ const HomePage = () => {
     <div>
       <h1>Trending now</h1>
       <MoviesList movies={movies} />
+      <Toaster />
     </div>
   );
 };

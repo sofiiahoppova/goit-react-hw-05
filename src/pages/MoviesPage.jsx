@@ -1,41 +1,48 @@
-import { Link } from "react-router-dom";
-import { useSearchParams, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 import MoviesList from "../components/MoviesList/MoviesList";
+
 import { fetchMovies } from "../fetchAPi";
-import { useState } from "react";
 
 const MoviesPage = () => {
   const [movies, setMovies] = useState(null);
-  /* const location = useLocation();*/
   const [searchParams, setSearchParams] = useSearchParams();
-  const productName = searchParams.get("name") ?? "";
+  const userRequest = searchParams.get("query") ?? "";
 
-  const handleChange = (e) => {
-    const nextParams = e.target.value !== "" ? { name: e.target.value } : {};
-    setSearchParams(nextParams);
-  };
+  useEffect(() => {
+    const getMovies = async () => {
+      if (!userRequest) return;
+      try {
+        const data = await fetchMovies(userRequest);
+        setMovies(data);
+      } catch (error) {
+        toast.error("Something went wrong. Sorry! You can try again later", {
+          duration: 4000,
+          position: "top-right",
+        });
+      }
+    };
+    getMovies();
+  }, [userRequest]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(e.target.userRequest.value);
-    const data = await fetchMovies(e.target.userRequest.value);
-    setMovies(data);
+    const searchValue = e.target.userRequest.value.trim();
+    const params = searchValue !== "" ? { query: searchValue } : {};
+    setSearchParams(params);
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="userRequest"
-
-          /*  value={productName}*/
-        />
+        <input type="text" name="userRequest" />
         <button type="submit">Search</button>
       </form>
 
       {movies !== null && <MoviesList movies={movies} />}
+      <Toaster />
     </div>
   );
 };

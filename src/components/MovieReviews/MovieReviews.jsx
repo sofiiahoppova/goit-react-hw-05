@@ -1,6 +1,8 @@
 import { useParams } from "react-router-dom";
-import { fetchReviews } from "../../fetchAPi";
 import { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
+
+import { fetchReviews } from "../../fetchAPi";
 
 import css from "./MovieReviews.module.css";
 
@@ -13,7 +15,12 @@ const Reviews = () => {
       try {
         const data = await fetchReviews(movieId);
         setReviews(data.results);
-      } catch (error) {}
+      } catch (error) {
+        toast.error("Something went wrong. Sorry! You can try again later", {
+          duration: 4000,
+          position: "top-right",
+        });
+      }
     };
     getReviews();
   }, []);
@@ -35,6 +42,7 @@ const Reviews = () => {
             );
           })}
       </ul>
+      <Toaster />
     </div>
   );
 };

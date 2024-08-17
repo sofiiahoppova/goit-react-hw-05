@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 import { fetchMovieDetails } from "../../fetchAPi";
 
@@ -14,10 +15,12 @@ const MovieCard = () => {
     const getMovieDetails = async () => {
       try {
         const data = await fetchMovieDetails(movieId);
-        console.log(data);
         setMovieDetails(data);
-      } catch (error) {
-        console.log("movieCard error");
+      } catch (err) {
+        toast.error("Something went wrong. Sorry! You can try again later", {
+          duration: 4000,
+          position: "top-right",
+        });
       }
     };
     getMovieDetails();
@@ -45,6 +48,7 @@ const MovieCard = () => {
             })}
         </ul>
       </div>
+      <Toaster />
     </div>
   );
 };
